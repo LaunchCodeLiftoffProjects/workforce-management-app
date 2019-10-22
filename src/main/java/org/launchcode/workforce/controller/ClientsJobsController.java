@@ -6,6 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/clients_jobs")
 public class ClientsJobsController {
@@ -22,6 +25,43 @@ public class ClientsJobsController {
         return clientsJobsService.add(clientsJobs);
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    List<ClientsJobs> getAll() {
+        return clientsJobsService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    ResponseEntity<ClientsJobs> get(@PathVariable Long id) {
+        Optional<ClientsJobs> clientsJobs = clientsJobsService.get(id);
+        if (clientsJobs.isPresent()) {
+            return ResponseEntity.ok().body(clientsJobs.get());
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping
+    ResponseEntity<ClientsJobs> update(@RequestBody ClientsJobs newClientsJobs) {
+        Optional<ClientsJobs> clientsJobs = clientsJobsService.update(newClientsJobs);
+        if (clientsJobs.isPresent()) {
+            return ResponseEntity.ok().body(clientsJobs.get());
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<String> delete(@PathVariable Long id) {
+        if (clientsJobsService.delete(id)) {
+            return ResponseEntity.ok().build();
+        }
+        else {
+            return ResponseEntity.notFound().build();
+        }
+    }
     
 
 

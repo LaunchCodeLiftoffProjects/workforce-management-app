@@ -4,11 +4,11 @@ import org.launchcode.workforce.model.ClientsJobs;
 import org.launchcode.workforce.repository.ClientsJobsRepository;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ClientsJobsService {
 
     private ClientsJobsRepository clientsJobsRepository;
