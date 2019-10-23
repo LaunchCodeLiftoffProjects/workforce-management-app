@@ -22,8 +22,8 @@ public class ClientsJobs {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "employerId")
-    private Long employerId;
+    @Column(name = "locationId")
+    private Long locationId;
 
     @Column(name = "clientId")
     private Long clientId;

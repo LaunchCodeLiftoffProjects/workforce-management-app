@@ -41,6 +41,18 @@ public class ClientsJobsController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/location/{locationId}")
+    List<ClientsJobs> getByLocation(@PathVariable Long locationId) {
+        return clientsJobsService.getByLocation(locationId);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/client/{clientId}")
+    List<ClientsJobs> getByClient(@PathVariable Long clientId) {
+        return clientsJobsService.getByClient(clientId);
+    }
 
     @PutMapping
     ResponseEntity<ClientsJobs> update(@RequestBody ClientsJobs newClientsJobs) {

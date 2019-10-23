@@ -25,6 +25,14 @@ public class ClientsJobsService {
         return clientsJobsRepository.findById(id);
     }
 
+    public List<ClientsJobs> getByLocation(Long id) {
+        return clientsJobsRepository.findByLocationId(id);
+    }
+
+    public List<ClientsJobs> getByClient(Long id) {
+        return clientsJobsRepository.findByClientId(id);
+    }
+
     public ClientsJobs add(ClientsJobs clientsJobs) {
         return clientsJobsRepository.save(clientsJobs);
     }
