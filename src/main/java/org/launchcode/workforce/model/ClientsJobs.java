@@ -3,24 +3,31 @@ package org.launchcode.workforce.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Table
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobLocation {
+
+public class ClientsJobs {
 
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "employer")
-    private String employer;
+    @Column(name = "locationId")
+    private Long locationId;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "clientId")
+    private Long clientId;
 
+    @Column(name = "startDate")
+    private Date startDate;
+}
