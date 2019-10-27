@@ -35,7 +35,7 @@ public class ClientUsersController {
 
     @GetMapping("/{id}")
     ResponseEntity<ClientName> get(@PathVariable Long id) {
-        Optional<ClientName> clientName = ClientService.get(id);
+        Optional<ClientName> clientName = clientService.get(id);
         if (clientName.isPresent()) {
             return ResponseEntity.ok().body(clientName.get());
         } else {

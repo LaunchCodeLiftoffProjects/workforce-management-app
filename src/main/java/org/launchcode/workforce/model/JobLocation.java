@@ -24,7 +24,6 @@ public class JobLocation {
     @Column(name = "address")
     private String address;
 
-    public Long getId() {
-        return id;
-    }
+
+    
 }
