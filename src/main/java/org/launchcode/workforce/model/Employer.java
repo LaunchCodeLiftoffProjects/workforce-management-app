@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobLocation {
+public class Employer {
 
     @Id
     @GeneratedValue
