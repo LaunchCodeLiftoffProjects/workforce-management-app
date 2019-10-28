@@ -18,8 +18,8 @@ public class Employer {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "employer")
-    private String employer;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "address")
     private String address;
