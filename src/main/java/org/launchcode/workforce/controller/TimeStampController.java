@@ -1,5 +1,6 @@
 package org.launchcode.workforce.controller;
 
+import org.launchcode.workforce.model.TimeStamp;
 import org.launchcode.workforce.service.TimeStampService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

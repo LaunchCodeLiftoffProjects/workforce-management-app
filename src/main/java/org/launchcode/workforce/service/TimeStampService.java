@@ -1,5 +1,6 @@
 package org.launchcode.workforce.service;
 
+import org.launchcode.workforce.model.TimeStamp;
 import org.launchcode.workforce.repository.TimeStampRepository;
 import org.springframework.stereotype.Service;
 
