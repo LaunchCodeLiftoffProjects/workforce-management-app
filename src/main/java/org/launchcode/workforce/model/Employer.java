@@ -11,15 +11,15 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobLocation {
+public class Employer {
 
     @Id
     @GeneratedValue
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "employer")
-    private String employer;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "address")
     private String address;
