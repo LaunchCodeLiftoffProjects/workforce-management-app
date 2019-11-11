@@ -21,8 +21,35 @@ public class TimeStampService {
 
     public List<TimeStamp> getByClient(Long clientId) {
         return timeStampRepository.findByClientId(clientId); }
+public String getClientState(Long clientId) {
+        String clientState;
+        if (timeStampRepository.findByClientId(clientId) == null) {
+            clientState = "IN";
+        }
+        else {
+            ArrayList<TimeStamp> clientTimeStamps = timeStampRepository.findByClientId(clientId);
+            int size = clientTimeStamps.size();
+            TimeStamp holder = clientTimeStamps.get(size - 1);
+            if(holder.getClientState().equals("IN") ) {
+                clientState = "OUT";
+            }
+            else{
+                clientState = "IN";
+            }
+        }
 
-    public TimeStamp add(TimeStamp timeStamp) { return timeStampRepository.save(timeStamp); }
+        return clientState;
+    }
+
+    public TimeStamp add(Long clientId) {
+        String clientState = getClientState(clientId);
+        //get a new date and align it w
+        Calendar calendar = Calendar.getInstance();
+        Date stamp= calendar.getTime();
+        TimeStamp newStamp = new TimeStamp(clientId,clientState, stamp);
+
+        return timeStampRepository.save(newStamp);
+    }
 
     public Optional<TimeStamp> update(TimeStamp timeStamp) {
         if (timeStampRepository.existsById(timeStamp.getId())) {
@@ -31,6 +58,4 @@ public class TimeStampService {
         }
         return Optional.empty();
     }
-
-    //place archive time option here...
 }
