@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import LandingPage from './pages/landingPage'
 import Page1 from './pages/page1'
 import Page2 from './pages/page2'
 import Page3 from './pages/page3'
@@ -12,7 +13,8 @@ export const Routes = () => {
     <Router>
       <Layout>
         <div style={{ marginTop: '100px' }}>
-          <Route path="/" exact component={Page1} />
+          <Route path="/" exact component={LandingPage} />
+          <Route path="/page1" exact component={Page1} />
           <Route path="/page2" exact component={Page2} />
           <Route path="/page3" exact component={Page3} />
           <Route path="/page4" exact component={Page4} />
