@@ -21,34 +21,37 @@ public class TimeStampService {
     public ArrayList<TimeStamp> getByClient(Long clientId) {
         return timeStampRepository.findByClientId(clientId); }
 
-    public String getClientState(Long clientId) {
-        String clientState;
-        if (timeStampRepository.findByClientId(clientId) == null) {
-            clientState = "IN";
+    private boolean getClientState(Long clientId) {
+        boolean clientState;
+        // client state true indicates clocked in status
+        ArrayList<TimeStamp> clientStamps;
+        clientStamps = getByClient(clientId);
+        if (clientStamps.isEmpty()) {
+            return true;
         }
         else {
-            ArrayList<TimeStamp> clientTimeStamps = timeStampRepository.findByClientId(clientId);
-            int size = clientTimeStamps.size();
-            TimeStamp holder = clientTimeStamps.get(size - 1);
-            if(holder.getClientState().equals("IN") ) {
-                clientState = "OUT";
+
+            int size = clientStamps.size();
+            TimeStamp holder = clientStamps.get(size - 1);
+
+            if(holder.isClientState() ) {
+                clientState = false;
             }
             else{
-                clientState = "IN";
+                clientState = true;
             }
         }
 
         return clientState;
     }
 
-    public TimeStamp add(Long clientId) {
-        String clientState = getClientState(clientId);
+    public TimeStamp add(TimeStamp timeStamp) {
+        boolean clientState = getClientState(timeStamp.getClientId());
         //get a new date and align it w
-        Calendar calendar = Calendar.getInstance();
-        Date stamp= calendar.getTime();
-        TimeStamp newStamp = new TimeStamp(clientId,clientState, stamp);
+        timeStamp.setTimeStamp(new Date());
+        timeStamp.setClientState(clientState);
 
-        return timeStampRepository.save(newStamp);
+        return timeStampRepository.save(timeStamp);
     }
 
     public Optional<TimeStamp> update(TimeStamp timeStamp) {
