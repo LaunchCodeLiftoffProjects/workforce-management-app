@@ -22,7 +22,7 @@ public class TimeStampService {
     public List<TimeStamp> getByClient(Long clientId) {
         return timeStampRepository.findByClientId(clientId); }
 
-    public TimeStamp add(TimeStamp timeStamp) { return timeStampRepository.save(timeStamp); }
+    public TimeStamp add(Long timeStamp) { return timeStampRepository.save(timeStamp); }
 
     public Optional<TimeStamp> update(TimeStamp timeStamp) {
         if (timeStampRepository.existsById(timeStamp.getId())) {
