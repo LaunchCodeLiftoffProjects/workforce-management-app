@@ -1,5 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default () => {
-    return <di>Page 2</di>
-}
+  return (
+    <div>
+      <h2>Update store info</h2>
+    </div>
+  );
+};
