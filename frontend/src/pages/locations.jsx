@@ -12,14 +12,6 @@ class locations extends React.Component {
       phone: ""
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
-  handleClick() {
-    this.setState(prevState => {
-      return {
-        submitData: !prevState.submitData
-      };
-    });
   }
 
   handleChange(event) {
@@ -30,7 +22,6 @@ class locations extends React.Component {
   }
 
   render() {
-    let buttonClick = this.state.submitData ? "Submit" : "Submit";
     return (
       <div>
         <h2>Add a store location</h2>
