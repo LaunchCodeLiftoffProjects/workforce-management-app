@@ -23,10 +23,10 @@ public class Client {
     @Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "clientEmail")
     private String email;
 
-    @Column(name= "phone")
+    @Column(name= "clientPhone")
     private String phone;
 
     
