@@ -81,7 +81,8 @@ class locations extends React.Component {
             placeholder="Phone"
             onChange={this.handleChange}
           />
-          <button>Submit</button>
+          <br></br>
+          <button>Save</button>
           <p>{this.state.name}</p>
           <p>{this.state.address}</p>
           <p>{this.state.city}</p>
