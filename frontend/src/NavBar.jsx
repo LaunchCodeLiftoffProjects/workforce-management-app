@@ -6,11 +6,11 @@ import { AppBar, Toolbar } from "@material-ui/core";
 export const NavBar = ({ color }) => (
   <AppBar color={color}>
     <Toolbar>
-      <Link to="/">
-        <Button>Add Store Location</Button>
+      <Link to="/page1">
+        <Button>Store Locations</Button>
       </Link>
       <Link to="/page2">
-        <Button>Edit Store Info</Button>
+        <Button>Edit</Button>
       </Link>
       <Link to="/page3">
         <Button>page 3</Button>
@@ -19,7 +19,7 @@ export const NavBar = ({ color }) => (
         <Button>page 4</Button>
       </Link>
       <Link to="/page5">
-        <Button>page 5</Button>
+        <Button>Add new Store</Button>
       </Link>
     </Toolbar>
   </AppBar>

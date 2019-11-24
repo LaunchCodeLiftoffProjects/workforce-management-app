@@ -1,5 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default () => {
-    return <div>Hello Page 4</div>
-}
+  return <div>Hello World Page 4</div>;
+};

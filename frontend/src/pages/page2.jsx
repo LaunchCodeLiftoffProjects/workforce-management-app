@@ -9,15 +9,15 @@ class Editlocations extends React.Component {
     };
   }
   componentDidMount() {
-    fetch("http://localhost: 3000/employer/" + this.props.match.params.id)
-      .then(response => response.jason())
+    fetch("http://localhost:8080/employer/1")
+      .then(response => response.json())
       .then(data => {
         this.setState({ employer: data });
       });
   }
 
   handleSubmit(data) {
-    return fetch("http://localhost:3000/employer" + this.state.staff.id, {
+    return fetch("http://localhost:8080/employer/" + this.state.staff.id, {
       method: "PUT",
       mode: "CORS",
       body: JSON.stringify(data),
@@ -91,8 +91,8 @@ class Editlocations extends React.Component {
               <input
                 type="text"
                 class="form-control"
-                value={this.state.employer.zips}
-                name="zips"
+                value={this.state.employer.zip}
+                name="zip"
                 placeholder="Zip Code"
                 required
               />
