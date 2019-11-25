@@ -41,7 +41,7 @@ class Editlocations extends React.Component {
               <label for="name">Store Name: </label>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 value={this.state.employer.name}
                 name="name"
                 placeholder="Store Name"

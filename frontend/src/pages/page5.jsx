@@ -4,61 +4,60 @@ class addLocations extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: "",
-      address: "",
-      city: "",
-      states: "",
-      zip: "",
-      phone: ""
+      loading: false,
+      addStore: {}
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
+  handleSubmit(data) {
+    return fetch("http://localhost:8080/employer/" + this.state.addStore.id, {
+      method: "PUT",
+      mode: "CORS",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        return res;
+      })
+      .catch(err => err);
   }
 
   render() {
     return (
       <div>
         <h2>Add a store location</h2>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <label for="name">Store Name: </label>
           <input
             type="text"
-            value={this.state.name}
+            value={this.state.addStore.name}
             name="name"
             placeholder="Store Name"
-            onChange={this.handleChange}
+            required
           />
           <br />
           <label for="address">Address: </label>
           <input
             type="text"
-            value={this.state.address}
+            value={this.state.addStore.address}
             name="address"
             placeholder="Store Address"
-            onChange={this.handleChange}
+            required
           />
           <br />
           <label for="city">City: </label>
           <input
             type="text"
-            value={this.state.city}
+            value={this.state.addStore.city}
             name="city"
             placeholder="City"
-            onChange={this.handleChange}
+            required
           />
           <br />
           <label for="states">State: </label>
-          <select
-            value={this.state.states}
-            name="states"
-            onChange={this.handleChange}
-          >
+          <select value={this.state.addStore.states} name="states" required>
             <option value="MO">MO-Missouri</option>
             <option value="IL">IL-Illinois</option>
             <option value="NY">NY-New York</option>
@@ -67,29 +66,43 @@ class addLocations extends React.Component {
           <label for="zips">Zip Code: </label>
           <input
             type="text"
-            value={this.state.zips}
+            value={this.state.addStore.zips}
             name="zips"
             placeholder="Zip Code"
-            onChange={this.handleChange}
+            required
           />
           <br />
           <label for="phone">Phone: </label>
           <input
             type="text"
-            value={this.state.phone}
+            value={this.state.addStore.phone}
             name="phone"
             placeholder="Phone"
-            onChange={this.handleChange}
+            required
           />
+
+          <div class="btn-group btn-group-toggle">
+            <button type="button" type="submit" class="btn btn-primary">
+              Save
+            </button>
+            &nbsp;
+            <button type="button" class="btn btn-secondary">
+              Cancel
+            </button>
+            &nbsp;
+            <button type="button" class="btn btn-danger">
+              Delete
+            </button>
+          </div>
+
           <br></br>
-          <button>Save</button>
-          <p>{this.state.name}</p>
-          <p>{this.state.address}</p>
-          <p>{this.state.city}</p>
-          <p>{this.state.states}</p>
-          <p>{this.state.zips}</p>
-          <p>{this.state.phone}</p>
         </form>{" "}
+        <p>{this.state.addStore.name}</p>
+        <p>{this.state.addStore.address}</p>
+        <p>{this.state.addStore.city}</p>
+        <p>{this.state.addStore.states}</p>
+        <p>{this.state.addStore.zips}</p>
+        <p>{this.state.addStore.phone}</p>
       </div>
     );
   }
