@@ -21,6 +21,9 @@ export const NavBar = ({ color }) => (
             <Link to="/page5">
                  <Button>Page Five</Button>
              </Link>
+             <Link to="/crudClients">
+                 <Button>Crud Clients</Button>
+             </Link>
         </Toolbar>
     </AppBar>
 )
