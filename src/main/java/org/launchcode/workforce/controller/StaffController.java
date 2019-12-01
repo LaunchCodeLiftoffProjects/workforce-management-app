@@ -19,6 +19,7 @@ public class StaffController {
         this.staffService = staffService;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     Staff add(@RequestBody Staff staff) {

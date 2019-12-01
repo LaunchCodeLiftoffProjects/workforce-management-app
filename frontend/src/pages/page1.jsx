@@ -1,7 +1,21 @@
 import React, { Component } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
-//import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table-next";
-//import { Link } from "react-router-dom";
+const useStyles = makeStyles({
+  root: {
+    width: "100%",
+    overflowX: "auto"
+  },
+  table: {
+    minWidth: 650
+  }
+});
 
 class listEmployer extends Component {
   constructor() {
@@ -24,39 +38,42 @@ class listEmployer extends Component {
       });
   }
 
-  CellFormatter(cell, row) {
-    return (
-      <td>
-        <a href={"/editLocations/" + row.id}>{cell}</a>
-      </td>
-    );
-  }
-
   render() {
     return (
-      <div>
-        <table>
-          {this.state.employer.map(employer => (
-            <tr>
-              <td>
-                {employer.id} {employer.name}
-              </td>
-
-              <td>{employer.address}</td>
-              <td>{employer.city}</td>
-              <td>{employer.state}</td>
-              <td>{employer.zip}</td>
-              <td>{employer.phone}</td>
-              <a href="/page2/">
-                <button>Edit</button>
-              </a>
-            </tr>
-          ))}
-        </table>
-        <a href="/page5/">
-          <button>Add New Store</button>
-        </a>
-      </div>
+      <Paper>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Store Name</TableCell>
+              <TableCell align="left">Address&nbsp;</TableCell>
+              <TableCell align="left">City&nbsp;</TableCell>
+              <TableCell align="left">State&nbsp;</TableCell>
+              <TableCell align="left">Zip&nbsp;</TableCell>
+              <TableCell align="left">Phone&nbsp;</TableCell>
+              <TableCell align="left">Edit Store&nbsp;</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {this.state.employer.map(row => (
+              <TableRow key={row.id}>
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell align="left">{row.address}</TableCell>
+                <TableCell align="left">{row.city}</TableCell>
+                <TableCell align="left">{row.state}</TableCell>
+                <TableCell align="left">{row.zip}</TableCell>
+                <TableCell align="left">{row.phone}</TableCell>
+                <TableCell align="left">
+                  <a href={"/page2/" + row.id}>
+                    <button>Edit</button>
+                  </a>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
 }

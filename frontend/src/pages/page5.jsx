@@ -85,24 +85,10 @@ class addLocations extends React.Component {
             <button type="button" type="submit" class="btn btn-primary">
               Save
             </button>
-            &nbsp;
-            <button type="button" class="btn btn-secondary">
-              Cancel
-            </button>
-            &nbsp;
-            <button type="button" class="btn btn-danger">
-              Delete
-            </button>
           </div>
 
           <br></br>
         </form>{" "}
-        <p>{this.state.addStore.name}</p>
-        <p>{this.state.addStore.address}</p>
-        <p>{this.state.addStore.city}</p>
-        <p>{this.state.addStore.states}</p>
-        <p>{this.state.addStore.zips}</p>
-        <p>{this.state.addStore.phone}</p>
       </div>
     );
   }

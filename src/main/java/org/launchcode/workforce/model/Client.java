@@ -17,9 +17,17 @@ public class Client {
     @Column(name= "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstName")
+    private String firstName;
 
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "clientEmail")
+    private String clientEmail;
+
+    @Column(name = "clientPhone")
+    private String clientPhone;
 
     
 }

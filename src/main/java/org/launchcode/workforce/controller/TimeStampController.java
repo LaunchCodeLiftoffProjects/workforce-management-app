@@ -21,7 +21,8 @@ public class TimeStampController {
     @PostMapping("/clock")
     @ResponseStatus(HttpStatus.OK)
     TimeStamp add(@RequestBody Long clientId) {
-        return timeStampService.add(clientId);
+      //  return timeStampService.add(clientId);
+        return null;
         }
 
     @GetMapping
