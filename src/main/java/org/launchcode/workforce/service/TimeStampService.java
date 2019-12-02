@@ -1,14 +1,18 @@
 package org.launchcode.workforce.service;
 
+import org.launchcode.workforce.model.Client;
 import org.launchcode.workforce.model.TimeStamp;
 import org.launchcode.workforce.repository.TimeStampRepository;
 import org.springframework.stereotype.Service;
+import org.launchcode.workforce.service.ClientService;
 
 import java.util.*;
 
 @Service
 public class TimeStampService {
     private TimeStampRepository timeStampRepository;
+
+    private ClientService clientService;
 
     public TimeStampService(TimeStampRepository timeStampRepository) {
         this.timeStampRepository = timeStampRepository;
@@ -18,14 +22,16 @@ public class TimeStampService {
 
     public Optional<TimeStamp> get(Long id) { return timeStampRepository.findById(id); }
 
-    public ArrayList<TimeStamp> getByClient(Long clientId) {
-        return timeStampRepository.findByClientId(clientId); }
+    public ArrayList<TimeStamp> getByClient(Client client) {
+        return timeStampRepository.findByClient(client);
+    }
 
-    private boolean getClientState(Long clientId) {
+    //figure out how to do find by date range
+
+    private boolean getClientState(Client client) {
         boolean clientState;
         // client state true indicates clocked in status
-        ArrayList<TimeStamp> clientStamps;
-        clientStamps = getByClient(clientId);
+        ArrayList<TimeStamp> clientStamps = getByClient(client);
         if (clientStamps.isEmpty()) {
             return true;
         }
@@ -45,11 +51,11 @@ public class TimeStampService {
         return clientState;
     }
 
-    public TimeStamp add(TimeStamp timeStamp) {
-        boolean clientState = getClientState(timeStamp.getClientId());
-        //get a new date and align it w
-        timeStamp.setTimeStamp(new Date());
-        timeStamp.setClientState(clientState);
+    public TimeStamp add(Long id) {
+        Client client = clientService.getClient(id);
+        boolean clientState = getClientState(client);
+        //boolean clientState = getClientState(timeStamp.;
+        TimeStamp timeStamp = new TimeStamp(client, clientState, new Date());
 
         return timeStampRepository.save(timeStamp);
     }
@@ -61,6 +67,4 @@ public class TimeStampService {
         }
         return Optional.empty();
     }
-
-    //place archive time option here...
 }
