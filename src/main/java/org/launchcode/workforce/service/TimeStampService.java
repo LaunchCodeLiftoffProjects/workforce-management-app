@@ -20,7 +20,7 @@ public class TimeStampService {
 
     public ArrayList<TimeStamp> getByClient(Long clientId) {
         return timeStampRepository.findByClientId(clientId); }
-
+/**
     private boolean getClientState(Long clientId) {
         boolean clientState;
         // client state true indicates clocked in status
@@ -53,7 +53,7 @@ public class TimeStampService {
 
         return timeStampRepository.save(timeStamp);
     }
-
+**/
     public Optional<TimeStamp> update(TimeStamp timeStamp) {
         if (timeStampRepository.existsById(timeStamp.getId())) {
             timeStampRepository.save(timeStamp);

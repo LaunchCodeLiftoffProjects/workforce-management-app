@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './form.css';
-import { ModalManager } from '@material-ui/core';
 
 export default class DynamicForm extends React.Component {
     state = {
-
     }
+
     constructor(props) {
         super(props);
     }
@@ -25,6 +24,7 @@ export default class DynamicForm extends React.Component {
 
     render () {
         let title = this.props.title || "Dynamic Form";
+        let model = this.props.model || [];
 
         return (
             <div className={this.props.className}>
