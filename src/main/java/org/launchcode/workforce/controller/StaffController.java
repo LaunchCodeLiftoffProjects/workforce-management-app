@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 import java.util.Optional;
 
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/staff")
@@ -27,7 +28,7 @@ public class StaffController {
         return staffService.add(staff);
     }
 
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     List<Staff> getAll() {
