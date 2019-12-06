@@ -21,13 +21,13 @@ public class TimeStamp {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="client")
-    private Client client;
+//    @ManyToOne
+//    @JoinColumn(name="client")
+//    private Client client;
 
-//    @NotNull
-//    @Column(name = "clientId")
-//    private Long clientId;
+    @NotNull
+    @Column(name = "clientId")
+    private Long clientId;
 
     @Column(name = "clientState")
     private boolean clientState;
@@ -38,10 +38,11 @@ public class TimeStamp {
 
 
 
-    public TimeStamp(Client client){
+    public TimeStamp(Long clientId){
     }
 
-    public TimeStamp(Client client, boolean clientState, Date stamp) {
+    public TimeStamp(Long clientId, boolean clientState, Date stamp) {
+        this.clientId = clientId;
         this.clientState = clientState;
         this.stamp = stamp;
     }
