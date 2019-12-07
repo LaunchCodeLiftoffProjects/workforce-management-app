@@ -15,6 +15,15 @@ export const NavBar = ({ color }) => (
              <Link to="/crudClients">
                  <Button>Crud Clients</Button>
              </Link>
+             <Link to="/listEmployer">
+                 <Button>Employers</Button>
+             </Link>
+             <Link to="/addLocations">
+                 <Button>Add Locations</Button>
+             </Link>
+             <Link to="/editLocations">
+                 <Button>Edit Locations</Button>
+             </Link>
         </Toolbar>
     </AppBar>
 )
