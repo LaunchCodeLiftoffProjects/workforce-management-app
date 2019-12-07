@@ -39,6 +39,7 @@ public class TimeStamp {
 
 
     public TimeStamp(Long clientId){
+        this.clientId=clientId;
     }
 
     public TimeStamp(Long clientId, boolean clientState, Date stamp) {

@@ -4,15 +4,12 @@ import org.launchcode.workforce.model.Client;
 import org.launchcode.workforce.model.TimeStamp;
 import org.launchcode.workforce.repository.TimeStampRepository;
 import org.springframework.stereotype.Service;
-import org.launchcode.workforce.service.ClientService;
 
 import java.util.*;
 
 @Service
 public class TimeStampService {
     private TimeStampRepository timeStampRepository;
-
-    private ClientService clientService;
 
     public TimeStampService(TimeStampRepository timeStampRepository) {
         this.timeStampRepository = timeStampRepository;
@@ -21,17 +18,18 @@ public class TimeStampService {
     public List<TimeStamp> getAll() { return timeStampRepository.findAll(); }
 
     public Optional<TimeStamp> get(Long id) { return timeStampRepository.findById(id); }
+    public TimeStamp get1(Long id) {return timeStampRepository.getOne(id);}
 
-    public ArrayList<TimeStamp> getByClient(Client client) {
-        return timeStampRepository.findByClient(client);
+    public ArrayList<TimeStamp> getByClientId(Long clientId) {
+        return timeStampRepository.findByClientId(clientId);
     }
 
     //figure out how to do find by date range
 
-    private boolean getClientState(Client client) {
+    private boolean getClientState(Long clientId) {
         boolean clientState;
         // client state true indicates clocked in status
-        ArrayList<TimeStamp> clientStamps = getByClient(client);
+        ArrayList<TimeStamp> clientStamps = getByClientId(clientId);
         if (clientStamps.isEmpty()) {
             return true;
         }
@@ -40,7 +38,7 @@ public class TimeStampService {
             int size = clientStamps.size();
             TimeStamp holder = clientStamps.get(size - 1);
 
-            if(holder.isClientState() ) {
+            if(holder.isClientState() == true ) {
                 clientState = false;
             }
             else{
@@ -51,11 +49,9 @@ public class TimeStampService {
         return clientState;
     }
 
-    public TimeStamp add(Long id) {
-        Client client = clientService.getClient(id);
-        boolean clientState = getClientState(client);
-        //boolean clientState = getClientState(timeStamp.;
-        TimeStamp timeStamp = new TimeStamp(client, clientState, new Date());
+    public TimeStamp add(Long clientId, Client client) {
+        boolean clientState = getClientState(clientId);
+        TimeStamp timeStamp = new TimeStamp(clientId, clientState, new Date());
 
         return timeStampRepository.save(timeStamp);
     }

@@ -9,8 +9,5 @@ import java.util.Optional;
 
 public interface TimeStampRepository extends JpaRepository<TimeStamp, Long> {
     ArrayList<TimeStamp> findByClientId(Long clientId);
-    //Optional<TimeStamp> findBy(Long clientId);
-    ArrayList<TimeStamp> findByClient(Client client);
-
-    //find by date range
+    //#TODO find by date range
 }

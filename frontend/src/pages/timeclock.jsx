@@ -28,7 +28,8 @@ export default () => {
     //const handleClick2= (e) => {e.preventDefault(); setClientState(target.clientState)}    
 
      const handleClick2= (e) => {e.preventDefault(); 
-         axios.post(`http://localhost8080/timelock/${clientId}`)
+         axios.post(`http://localhost:8080/timeclock`, {
+            id: clientId,  name: clientName} )
          .then((res) => {console.log(res);})}   
 
     return (
@@ -44,7 +45,7 @@ export default () => {
         Welcome to Workforce:
         <p>{clientName}</p>
         <form>
-            <input type="submit" value="clock **Out" 
+            <input type="submit" value="clock **Out"
             onClick={handleClick2} />
         </form>
         </div>     
