@@ -6,7 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import UserProfile from "./page2";
+import UserProfile from "./editLocations";
 
 const useStyles = makeStyles({
   root: {
@@ -71,7 +71,7 @@ class listEmployer extends Component {
                   <TableCell align="left">{row.zip}</TableCell>
                   <TableCell align="left">{row.phone}</TableCell>
                   <TableCell align="left">
-                    <a href={"/page2/"}>
+                    <a href={"/editLocations/"}>
                       <input type="hidden" name="id" id="id" value={row.id} />
                       <button
                         id="id"
@@ -90,7 +90,7 @@ class listEmployer extends Component {
           </Table>
         </Paper>
         <br></br>
-        <a href={"/page5/"}>
+        <a href={"/addLocations/"}>
           <button>Add Store</button>
         </a>
         <button>Delete Store Location</button>

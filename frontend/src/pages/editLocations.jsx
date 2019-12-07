@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import UserProfile from "./page3";
+import UserProfile from "./editLocations";
 
 class Editlocations extends React.Component {
   constructor(props) {

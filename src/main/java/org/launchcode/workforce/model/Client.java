@@ -29,5 +29,5 @@ public class Client {
     @Column(name = "clientPhone")
     private String clientPhone;
 
-    
+
 }

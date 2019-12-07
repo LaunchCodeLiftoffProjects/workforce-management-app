@@ -5,9 +5,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Optional;
 
-@Table
+@Table(name = "TimeStamp")
 @Entity
 @Data
 @AllArgsConstructor
@@ -16,17 +18,29 @@ public class TimeStamp {
 
     @Id
     @GeneratedValue
-    @Column(name = "tid")
+    @Column(name = "id")
     private Long id;
 
+    @NotNull
     @Column(name = "clientId")
     private Long clientId;
 
-    @Column(name= "DateTime")
+    @Column(name = "clientState")
+    private boolean clientState;
+
+    @Column(name = "stamp")
     private Date stamp;
 
-    //TODO insert client ID here foreign key from client table
-    //@ManyToOne
-    //will this generate the client ID as a foreign key?
 
+
+
+    public TimeStamp(Long clientId){
+        this.clientId=clientId;
+    }
+
+    public TimeStamp(Long clientId, boolean clientState, Date stamp) {
+        this.clientId = clientId;
+        this.clientState = clientState;
+        this.stamp = stamp;
+    }
 }
