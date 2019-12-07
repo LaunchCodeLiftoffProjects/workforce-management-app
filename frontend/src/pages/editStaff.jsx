@@ -1,13 +1,17 @@
 import React, { Component } from "react";
-//import "bootstrap/dist/css/bootstrap.min.css";
 import TextField from "@material-ui/core/TextField";
+import axios from "axios";
 
 class EditStaff extends Component {
   constructor() {
     super();
     this.state = {
       loading: false,
-      staff: {}
+      id: "",
+      firstName: "",
+      lastName: "",
+      staffEmail: "",
+      staffPhone: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -20,26 +24,37 @@ class EditStaff extends Component {
     );
     const response = await data.json();
 
-    this.setState({ staff: response });
+    this.setState({
+      id: this.props.match.params.id,
+      firstName: response.firstName,
+      lastName: response.lastName,
+      staffEmail: response.staffEmail,
+      staffPhone: response.staffPhone
+    });
   }
 
-  handleSubmit() {
-    return fetch("http://localhost:8080/staff/" + this.state.staff.id, {
-      method: "PUT",
-      mode: "CORS",
-      body: this.state.staff,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => {
-        return res;
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const body = {
+      id: this.state.id,
+      firstName: this.state.firstName,
+      lastName: this.state.lasName,
+      staffEmail: this.state.staffEmail,
+      staffPhone: this.state.staffPhone
+    };
+    axios
+      .post("http://localhost:8080/staff", body)
+      .then(function(response) {
+        console.log(response);
       })
-      .catch(err => err);
+      .catch(function(error) {
+        console.log(error);
+      });
   }
 
   handleChange(event) {
-    this.setState({ staff: { [event.target.name]: event.target.value } });
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   render() {
@@ -56,9 +71,7 @@ class EditStaff extends Component {
               margin="normal"
               name="firstName"
               variant="outlined"
-              value={
-                this.state.staff.firstName ? this.state.staff.firstName : ""
-              }
+              value={this.state.firstName ? this.state.firstName : ""}
               required
             />
 
@@ -70,7 +83,7 @@ class EditStaff extends Component {
               margin="normal"
               name="lastName"
               variant="outlined"
-              value={this.state.staff.lastName ? this.state.staff.lastName : ""}
+              value={this.state.lastName ? this.state.lastName : ""}
               required
             />
 
@@ -82,9 +95,7 @@ class EditStaff extends Component {
               margin="normal"
               name="staffPhone"
               variant="outlined"
-              value={
-                this.state.staff.staffPhone ? this.state.staff.staffPhone : ""
-              }
+              value={this.state.staffPhone ? this.state.staffPhone : ""}
               required
             />
 
@@ -96,9 +107,7 @@ class EditStaff extends Component {
               margin="normal"
               name="staffEmail"
               variant="outlined"
-              value={
-                this.state.staff.staffEmail ? this.state.staff.staffEmail : ""
-              }
+              value={this.state.staffEmail ? this.state.staffEmail : ""}
               required
             />
 

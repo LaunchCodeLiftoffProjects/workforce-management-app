@@ -51,10 +51,10 @@ class ListStaff extends Component {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="right">First Name</TableCell>
-              <TableCell align="right">Last Name&nbsp;</TableCell>
-              <TableCell align="right">Email&nbsp;</TableCell>
-              <TableCell align="right">Phone&nbsp;</TableCell>
+              <TableCell align="left">First Name</TableCell>
+              <TableCell align="left">Last Name&nbsp;</TableCell>
+              <TableCell align="left">Email&nbsp;</TableCell>
+              <TableCell align="left">Phone&nbsp;</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -63,19 +63,19 @@ class ListStaff extends Component {
                 <TableCell component="th" scope="row">
                   {row.firstName}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell align="left">
                   <a href={"/EditStaff/" + row.id}>{row.lastName}</a>
                 </TableCell>
-                <TableCell align="right">{row.staffEmail}</TableCell>
-                <TableCell align="right">{row.staffPhone}</TableCell>
+                <TableCell align="left">{row.staffEmail}</TableCell>
+                <TableCell align="left">{row.staffPhone}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
         <div>
-          <button type="submit" color="primary">
-            Add
-          </button>
+          <Link to="/AddStaff" className="btn btn-primary">
+            Add Staff
+          </Link>
         </div>
         ;
       </Paper>
