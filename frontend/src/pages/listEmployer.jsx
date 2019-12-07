@@ -46,6 +46,7 @@ class listEmployer extends Component {
   render() {
     return (
       <div>
+        <h2>Store Locations</h2>
         <Paper>
           <Table>
             <TableHead>
@@ -83,6 +84,8 @@ class listEmployer extends Component {
                         Edit
                       </button>
                     </a>
+
+                    <button>Delete</button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -90,10 +93,15 @@ class listEmployer extends Component {
           </Table>
         </Paper>
         <br></br>
-        <a href={"/addLocations/"}>
-          <button>Add Store</button>
-        </a>
-        <button>Delete Store Location</button>
+        <label>
+          <b>Add a New Store: </b>
+        </label>
+        <button>Click Me!</button>
+
+        <p>
+          When add new store is clicked form will show below instead of a new
+          page
+        </p>
       </div>
     );
   }
