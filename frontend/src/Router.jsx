@@ -5,6 +5,7 @@ import PageTwo from "./pages/page2";
 import PageThree from "./pages/page3";
 import PageFour from "./pages/page4";
 import PageFive from "./pages/page5";
+import crudClients from "./pages/crudClients";
 import Layout from "./Layout";
 
 export const Routes = () => {
@@ -17,6 +18,7 @@ export const Routes = () => {
           <Route path="/page3" exact component={PageThree} />
           <Route path="/page4" exact component={PageFour} />
           <Route path="/page5" exact component={PageFive} />
+          <Route path="/crudClients" exact component={crudClients} />
         </div>
       </Layout>
     </Router>
