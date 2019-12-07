@@ -21,6 +21,7 @@
   color: #09d3ac;
 }
 
-form, h2 {
-text-align:center;
+form,
+h2 {
+  text-align: center;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import UserProfile from "./page3";
 
 class Editlocations extends React.Component {
   constructor(props) {
@@ -31,7 +32,19 @@ class Editlocations extends React.Component {
       });
   };
 
-  /*handleSubmit(data) {
+  componentDidMount() {
+    this.setState({ loading: true });
+    fetch("http://localhost:8080/employer/")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          loading: false,
+          employer: data
+        });
+      });
+  }
+
+  handleSubmit(data) {
     return fetch("http://localhost:8080/employer/" + this.state.employer.id, {
       method: "PUT",
       mode: "CORS",
@@ -44,20 +57,19 @@ class Editlocations extends React.Component {
         return res;
       })
       .catch(err => err);
-  }*/
+  }
 
   render() {
     const { name, address, city, state, zip, phone } = this.state;
     return (
-      <div className="container">
-        <h2>Edit Store Location</h2>
+      <div>
+        <h2>Edit Store Location {this.state.data}</h2>
         <div>
           <form onSubmit={this.submitHandler}>
-            <div class="form-group">
-              <label for="name">Store Name: </label>
+            <div>
+              <label>Store Name: </label>
               <input
                 type="text"
-                className="form-control"
                 value={name}
                 name="name"
                 placeholder="Store Name"
@@ -66,11 +78,10 @@ class Editlocations extends React.Component {
               />
             </div>
 
-            <div class="form-group">
-              <label for="address">Address: </label>
+            <div>
+              <label>Address: </label>
               <input
                 type="text"
-                class="form-control"
                 value={address}
                 name="address"
                 placeholder="Store Address"
@@ -79,11 +90,10 @@ class Editlocations extends React.Component {
               />
             </div>
 
-            <div class="form-group">
-              <label for="city">City: </label>
+            <div>
+              <label>City: </label>
               <input
                 type="text"
-                class="form-control"
                 value={city}
                 name="city"
                 placeholder="City"
@@ -92,25 +102,19 @@ class Editlocations extends React.Component {
               />
             </div>
 
-            <div class="form-group">
-              <label for="states">State: </label>
-              <select
-                class="form-control"
-                value={state}
-                onChange={this.changeHandler}
-                name="state"
-              >
+            <div>
+              <label>State: </label>
+              <select value={state} onChange={this.changeHandler} name="state">
                 <option value="MO">MO-Missouri</option>
                 <option value="IL">IL-Illinois</option>
                 <option value="NY">NY-New York</option>
               </select>
             </div>
 
-            <div class="form-group">
-              <label for="zips">Zip Code: </label>
+            <div>
+              <label>Zip Code: </label>
               <input
                 type="text"
-                class="form-control"
                 value={zip}
                 name="zip"
                 placeholder="Zip Code"
@@ -119,11 +123,10 @@ class Editlocations extends React.Component {
               />
             </div>
 
-            <div class="form-group">
-              <label for="phone">Phone: </label>
+            <div>
+              <label>Phone: </label>
               <input
                 type="text"
-                class="form-control"
                 value={phone}
                 name="phone"
                 placeholder="Phone"
@@ -131,7 +134,7 @@ class Editlocations extends React.Component {
                 required
               />
             </div>
-            <button type="submit">Send Data</button>
+            <button type="submit">Save</button>
           </form>
         </div>
       </div>

@@ -63,11 +63,11 @@ class addLocations extends React.Component {
             <option value="NY">NY-New York</option>
           </select>
           <br />
-          <label for="zips">Zip Code: </label>
+          <label for="zip">Zip Code: </label>
           <input
             type="text"
             value={this.state.addStore.zips}
-            name="zips"
+            name="zip"
             placeholder="Zip Code"
             required
           />

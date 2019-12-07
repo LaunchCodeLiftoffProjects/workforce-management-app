@@ -6,6 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import UserProfile from "./page2";
 
 const useStyles = makeStyles({
   root: {
@@ -25,10 +26,14 @@ class listEmployer extends Component {
       employer: []
     };
   }
+  onClick = e => {
+    let data = e.target.value;
+    UserProfile.setName({ data });
+  };
 
   componentDidMount() {
     this.setState({ loading: true });
-    fetch("http://localhost:8080/employer")
+    fetch("http://localhost:8080/employer/")
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -40,40 +45,56 @@ class listEmployer extends Component {
 
   render() {
     return (
-      <Paper>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="left">Store Name</TableCell>
-              <TableCell align="left">Address&nbsp;</TableCell>
-              <TableCell align="left">City&nbsp;</TableCell>
-              <TableCell align="left">State&nbsp;</TableCell>
-              <TableCell align="left">Zip&nbsp;</TableCell>
-              <TableCell align="left">Phone&nbsp;</TableCell>
-              <TableCell align="left">Edit Store&nbsp;</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.state.employer.map(row => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="left">{row.address}</TableCell>
-                <TableCell align="left">{row.city}</TableCell>
-                <TableCell align="left">{row.state}</TableCell>
-                <TableCell align="left">{row.zip}</TableCell>
-                <TableCell align="left">{row.phone}</TableCell>
-                <TableCell align="left">
-                  <a href={"/page2/" + row.id}>
-                    <button>Edit</button>
-                  </a>
-                </TableCell>
+      <div>
+        <Paper>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="left">Store Name</TableCell>
+                <TableCell align="left">Address&nbsp;</TableCell>
+                <TableCell align="left">City&nbsp;</TableCell>
+                <TableCell align="left">State&nbsp;</TableCell>
+                <TableCell align="left">Zip&nbsp;</TableCell>
+                <TableCell align="left">Phone&nbsp;</TableCell>
+                <TableCell align="left">Edit Store&nbsp;</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
+            </TableHead>
+            <TableBody>
+              {this.state.employer.map(row => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="left">{row.address}</TableCell>
+                  <TableCell align="left">{row.city}</TableCell>
+                  <TableCell align="left">{row.state}</TableCell>
+                  <TableCell align="left">{row.zip}</TableCell>
+                  <TableCell align="left">{row.phone}</TableCell>
+                  <TableCell align="left">
+                    <a href={"/page2/"}>
+                      <input type="hidden" name="id" id="id" value={row.id} />
+                      <button
+                        id="id"
+                        name="id"
+                        onClick={e => {
+                          this.onClick(e);
+                        }}
+                      >
+                        Edit
+                      </button>
+                    </a>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+        <br></br>
+        <a href={"/page5/"}>
+          <button>Add Store</button>
+        </a>
+        <button>Delete Store Location</button>
+      </div>
     );
   }
 }
