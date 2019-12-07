@@ -1,5 +1,6 @@
 package org.launchcode.workforce.service;
 
+import org.launchcode.workforce.model.Client;
 import org.launchcode.workforce.model.TimeStamp;
 import org.launchcode.workforce.repository.TimeStampRepository;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,18 @@ public class TimeStampService {
     public List<TimeStamp> getAll() { return timeStampRepository.findAll(); }
 
     public Optional<TimeStamp> get(Long id) { return timeStampRepository.findById(id); }
+    public TimeStamp get1(Long id) {return timeStampRepository.getOne(id);}
 
-    public ArrayList<TimeStamp> getByClient(Long clientId) {
-        return timeStampRepository.findByClientId(clientId); }
-/**
+    public ArrayList<TimeStamp> getByClientId(Long clientId) {
+        return timeStampRepository.findByClientId(clientId);
+    }
+
+    //figure out how to do find by date range
+
     private boolean getClientState(Long clientId) {
         boolean clientState;
         // client state true indicates clocked in status
-        ArrayList<TimeStamp> clientStamps;
-        clientStamps = getByClient(clientId);
+        ArrayList<TimeStamp> clientStamps = getByClientId(clientId);
         if (clientStamps.isEmpty()) {
             return true;
         }
@@ -34,7 +38,7 @@ public class TimeStampService {
             int size = clientStamps.size();
             TimeStamp holder = clientStamps.get(size - 1);
 
-            if(holder.isClientState() ) {
+            if(holder.isClientState() == true ) {
                 clientState = false;
             }
             else{
@@ -45,15 +49,13 @@ public class TimeStampService {
         return clientState;
     }
 
-    public TimeStamp add(TimeStamp timeStamp) {
-        boolean clientState = getClientState(timeStamp.getClientId());
-        //get a new date and align it w
-        timeStamp.setTimeStamp(new Date());
-        timeStamp.setClientState(clientState);
+    public TimeStamp add(Long clientId, Client client) {
+        boolean clientState = getClientState(clientId);
+        TimeStamp timeStamp = new TimeStamp(clientId, clientState, new Date());
 
         return timeStampRepository.save(timeStamp);
     }
-**/
+
     public Optional<TimeStamp> update(TimeStamp timeStamp) {
         if (timeStampRepository.existsById(timeStamp.getId())) {
             timeStampRepository.save(timeStamp);
@@ -61,6 +63,4 @@ public class TimeStampService {
         }
         return Optional.empty();
     }
-
-    //place archive time option here...
 }

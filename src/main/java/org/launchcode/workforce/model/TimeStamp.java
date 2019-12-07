@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Optional;
 
-@Table
+@Table(name = "TimeStamp")
 @Entity
 @Data
 @AllArgsConstructor
@@ -25,14 +26,21 @@ public class TimeStamp {
     private Long clientId;
 
     @Column(name = "clientState")
-    private String clientState;
+    private boolean clientState;
 
-    @Column(name = "timeStamp")
-    private Date timeStamp;
+    @Column(name = "stamp")
+    private Date stamp;
 
-    public TimeStamp(@NotNull Long clientId, String clientState, Date timeStamp) {
+
+
+
+    public TimeStamp(Long clientId){
+        this.clientId=clientId;
+    }
+
+    public TimeStamp(Long clientId, boolean clientState, Date stamp) {
         this.clientId = clientId;
         this.clientState = clientState;
-        this.timeStamp = timeStamp;
+        this.stamp = stamp;
     }
 }
