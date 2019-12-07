@@ -17,7 +17,7 @@ export default () => {
     const handleClick1= (e) => {e.preventDefault(); console.log(e);
         axios.get(`http://localhost:8080/client/${clientId}`)
         .then((res) => {console.log(res);
-            setClientName(res.data.name);
+            setClientName(res.data.firstName + " " +res.data.lastName);
             //get clientState from timestamp
             axios.get(`http://localhost:8080/timeclock/${clientId}`)
             .then((res) => {console.log(res)})
