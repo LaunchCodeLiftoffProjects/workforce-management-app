@@ -36,16 +36,15 @@ export default () => {
     <div> 
         <form>
             <label>
-                (clientId) Enter your ID: 
+                Enter your ID: 
                 <input type="text" value={clientId} name="clientId" onChange={handleChange} />
             </label>
             <input type="submit" value="Submit" onClick={handleClick1} />
         </form>
         <p>{errMsg}</p>
-        Welcome to Workforce:
-        <p>{clientName}</p>
+        <p>Welcome to Workforce: {clientName}</p>
         <form>
-            <input type="submit" value="clock **Out"
+            <input type="submit" value="clock in / out"
             onClick={handleClick2} />
         </form>
         </div>     

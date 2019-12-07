@@ -21,10 +21,6 @@ public class TimeStamp {
     @Column(name = "id")
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name="client")
-//    private Client client;
-
     @NotNull
     @Column(name = "clientId")
     private Long clientId;
