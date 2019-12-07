@@ -1,94 +1,137 @@
 import React from "react";
+import TextField from "@material-ui/core/TextField";
+import axios from "axios";
 
 class addLocations extends React.Component {
   constructor() {
     super();
     this.state = {
       loading: false,
-      addStore: {}
+      id: "",
+      name: "",
+      address: "",
+      city: "",
+      state: "",
+      zip: "",
+      phone: ""
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(data) {
-    return fetch("http://localhost:8080/employer/" + this.state.addStore.id, {
-      method: "PUT",
-      mode: "CORS",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => {
-        return res;
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const body = {
+      id: this.state.id,
+      name: this.state.name,
+      address: this.state.address,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      phone: this.state.phone
+    };
+    axios
+      .post("http://localhost:8080/employer", body)
+      .then(function(response) {
+        console.log(response);
       })
-      .catch(err => err);
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   render() {
     return (
       <div>
         <h2>Add a store location</h2>
-        <form onSubmit={this.handleSubmit}>
-          <label for="name">Store Name: </label>
-          <input
-            type="text"
-            value={this.state.addStore.name}
-            name="name"
-            placeholder="Store Name"
-            required
-          />
-          <br />
-          <label for="address">Address: </label>
-          <input
-            type="text"
-            value={this.state.addStore.address}
-            name="address"
-            placeholder="Store Address"
-            required
-          />
-          <br />
-          <label for="city">City: </label>
-          <input
-            type="text"
-            value={this.state.addStore.city}
-            name="city"
-            placeholder="City"
-            required
-          />
-          <br />
-          <label for="states">State: </label>
-          <select value={this.state.addStore.states} name="states" required>
-            <option value="MO">MO-Missouri</option>
-            <option value="IL">IL-Illinois</option>
-            <option value="NY">NY-New York</option>
-          </select>
-          <br />
-          <label for="zip">Zip Code: </label>
-          <input
-            type="text"
-            value={this.state.addStore.zips}
-            name="zip"
-            placeholder="Zip Code"
-            required
-          />
-          <br />
-          <label for="phone">Phone: </label>
-          <input
-            type="text"
-            value={this.state.addStore.phone}
-            name="phone"
-            placeholder="Phone"
-            required
-          />
+        <div>
+          <form onSubmit={this.handleSubmit}>
+            <TextField
+              id="name"
+              label="Store Name"
+              helperText="Store Name"
+              onChange={this.handleChange}
+              margin="normal"
+              name="name"
+              variant="outlined"
+              value={this.state.name ? this.state.name : ""}
+              required
+            />
 
-          <div class="btn-group btn-group-toggle">
-            <button type="button" type="submit" class="btn btn-primary">
-              Save
-            </button>
-          </div>
+            <TextField
+              id="address"
+              label="Address"
+              helperText="Address"
+              onChange={this.handleChange}
+              margin="normal"
+              name="address"
+              variant="outlined"
+              value={this.state.address ? this.state.address : ""}
+              required
+            />
 
-          <br></br>
-        </form>{" "}
+            <TextField
+              id="city"
+              label="City"
+              helperText="City"
+              onChange={this.handleChange}
+              margin="normal"
+              name="city"
+              variant="outlined"
+              value={this.state.city ? this.state.city : ""}
+              required
+            />
+
+            <TextField
+              id="state"
+              label="State"
+              helperText="State"
+              onChange={this.handleChange}
+              margin="normal"
+              name="state"
+              variant="outlined"
+              value={this.state.state ? this.state.state : ""}
+              required
+            />
+
+            <TextField
+              id="zip"
+              label="Zip Code"
+              helperText="Zip Code"
+              onChange={this.handleChange}
+              margin="normal"
+              name="zip"
+              variant="outlined"
+              value={this.state.zip ? this.state.zip : ""}
+              required
+            />
+
+            <TextField
+              id="phone"
+              label="Phone"
+              helperText="Phone"
+              onChange={this.handleChange}
+              margin="normal"
+              name="phone"
+              variant="outlined"
+              value={this.state.phone ? this.state.phone : ""}
+              required
+            />
+
+            <div class="btn-group btn-group-toggle">
+              <button type="button" type="submit" class="btn btn-primary">
+                Save
+              </button>
+            </div>
+
+            <br></br>
+          </form>{" "}
+        </div>
       </div>
     );
   }
