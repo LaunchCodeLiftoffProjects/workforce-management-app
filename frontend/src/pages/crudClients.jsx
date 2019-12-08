@@ -27,7 +27,16 @@ export default class crudClients extends React.Component {
       client: []
     };
 
+    this.handleClientChange = this.handleClientChange.bind(this);
+
   }
+
+  handleClientChange(newClient) {
+    let newClientArray = this.state.client
+    newClientArray.push(newClient)
+    this.setState({ client: newClientArray})
+  }
+
 
   onClick = e => {
     let data = e.target.value;
@@ -97,7 +106,7 @@ export default class crudClients extends React.Component {
           When add new client is clicked, the form below will pop up. It will
           not be showing until onClick
         </p>
-        <AddClient></AddClient>
+        <AddClient state={this.state.newClient} onClientAdd={this.handleClientChange}></AddClient>
         <pre style={{ width: "300px" }}>{JSON.stringify(this.state.data)}</pre>
       </div>
     );
@@ -134,6 +143,17 @@ class AddClient extends React.Component {
       .catch(function(error) {
         console.log(error);
       });
+
+    const newClient = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        clientPhone: data.clientPhone,
+        clientEmail: data.clientEmail
+    }
+
+    this.props.onClientAdd(newClient)
+
+
   };
 
   handleInputChange(e) {
@@ -143,6 +163,7 @@ class AddClient extends React.Component {
     this.setState({
       [name]: value
     });
+
   }
 
   render() {
