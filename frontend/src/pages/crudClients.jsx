@@ -106,7 +106,7 @@ export default class crudClients extends React.Component {
           When add new client is clicked, the form below will pop up. It will
           not be showing until onClick
         </p>
-        <AddClient state={this.state.newClient} onClientAdd={this.handleClientChange}></AddClient>
+        <AddClient onClientAdd={this.handleClientChange}></AddClient>
         <pre style={{ width: "300px" }}>{JSON.stringify(this.state.data)}</pre>
       </div>
     );
