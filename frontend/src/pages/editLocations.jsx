@@ -1,11 +1,13 @@
 import React from "react";
+import TextField from "@material-ui/core/TextField";
 import axios from "axios";
-import UserProfile from "./editLocations";
 
 class Editlocations extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
+      loading: false,
+      id: "",
       name: "",
       address: "",
       city: "",
@@ -13,128 +15,137 @@ class Editlocations extends React.Component {
       zip: "",
       phone: ""
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  async componentDidMount() {
+    const data = await fetch(
+      "http://localhost:8080/employer/" + this.props.match.params.id
+    );
+    const response = await data.json();
+
+    this.setState({
+      id: this.props.match.params.id,
+      name: response.name,
+      address: response.address,
+      city: response.city,
+      state: response.state,
+      zip: response.zip,
+      phone: response.phone
+    });
   }
 
-  changeHandler = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  handleSubmit(event) {
+    event.preventDefault();
 
-  submitHandler = e => {
-    e.preventDefault();
-    console.log(this.state);
+    const body = {
+      id: this.state.id,
+      name: this.state.name,
+      address: this.state.address,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      phone: this.state.phone
+    };
     axios
-      .post("http://localhost:8080/employer/post", this.state)
-      .then(response => {
+      .post("http://localhost:8080/employer", body)
+      .then(function(response) {
         console.log(response);
       })
-      .catch(error => {
+      .catch(function(error) {
         console.log(error);
-      });
-  };
-
-  componentDidMount() {
-    this.setState({ loading: true });
-    fetch("http://localhost:8080/employer/")
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          loading: false,
-          employer: data
-        });
       });
   }
 
-  handleSubmit(data) {
-    return fetch("http://localhost:8080/employer/" + this.state.employer.id, {
-      method: "PUT",
-      mode: "CORS",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => {
-        return res;
-      })
-      .catch(err => err);
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   render() {
-    const { name, address, city, state, zip, phone } = this.state;
     return (
       <div>
-        <h2>Edit Store Location {this.state.data}</h2>
+        <h2>Edit Store Location</h2>
         <div>
-          <form onSubmit={this.submitHandler}>
-            <div>
-              <label>Store Name: </label>
-              <input
-                type="text"
-                value={name}
-                name="name"
-                placeholder="Store Name"
-                onChange={this.changeHandler}
-                required
-              />
-            </div>
+          <form onSubmit={this.handleSubmit} noValidate autoComplete="off">
+            <TextField
+              id="name"
+              label="Store Name"
+              onChange={this.handleChange}
+              margin="normal"
+              name="name"
+              variant="outlined"
+              value={this.state.name ? this.state.name : ""}
+              required
+            />
+
+            <TextField
+              id="address"
+              label="Address"
+              helperText="Address"
+              onChange={this.handleChange}
+              margin="normal"
+              name="address"
+              variant="outlined"
+              value={this.state.address ? this.state.address : ""}
+              required
+            />
+
+            <TextField
+              id="city"
+              label="City"
+              helperText="City"
+              onChange={this.handleChange}
+              margin="normal"
+              name="city"
+              variant="outlined"
+              value={this.state.city ? this.state.city : ""}
+              required
+            />
+
+            <TextField
+              id="state"
+              label="State"
+              helperText="State"
+              onChange={this.handleChange}
+              margin="normal"
+              name="state"
+              variant="outlined"
+              value={this.state.state ? this.state.state : ""}
+              required
+            />
+
+            <TextField
+              id="zip"
+              label="Zip Code"
+              helperText="Zip Code"
+              onChange={this.handleChange}
+              margin="normal"
+              name="zip"
+              variant="outlined"
+              value={this.state.zip ? this.state.zip : ""}
+              required
+            />
+
+            <TextField
+              id="phone"
+              label="Phone"
+              helperText="Phone"
+              onChange={this.handleChange}
+              margin="normal"
+              name="phone"
+              variant="outlined"
+              value={this.state.phone ? this.state.phone : ""}
+              required
+            />
 
             <div>
-              <label>Address: </label>
-              <input
-                type="text"
-                value={address}
-                name="address"
-                placeholder="Store Address"
-                onChange={this.changeHandler}
-                required
-              />
+              <button type="submit" color="primary">
+                Save
+              </button>
+              &nbsp;
+              <button>Cancel</button>&nbsp;
+              <button color="secondary">Delete</button>
             </div>
-
-            <div>
-              <label>City: </label>
-              <input
-                type="text"
-                value={city}
-                name="city"
-                placeholder="City"
-                onChange={this.changeHandler}
-                required
-              />
-            </div>
-
-            <div>
-              <label>State: </label>
-              <select value={state} onChange={this.changeHandler} name="state">
-                <option value="MO">MO-Missouri</option>
-                <option value="IL">IL-Illinois</option>
-                <option value="NY">NY-New York</option>
-              </select>
-            </div>
-
-            <div>
-              <label>Zip Code: </label>
-              <input
-                type="text"
-                value={zip}
-                name="zip"
-                placeholder="Zip Code"
-                onChange={this.changeHandler}
-                required
-              />
-            </div>
-
-            <div>
-              <label>Phone: </label>
-              <input
-                type="text"
-                value={phone}
-                name="phone"
-                placeholder="Phone"
-                onChange={this.changeHandler}
-                required
-              />
-            </div>
-            <button type="submit">Save</button>
           </form>
         </div>
       </div>

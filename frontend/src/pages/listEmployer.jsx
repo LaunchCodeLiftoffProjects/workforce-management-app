@@ -6,7 +6,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import UserProfile from "./editLocations";
 
 const useStyles = makeStyles({
   root: {
@@ -23,13 +22,13 @@ class listEmployer extends Component {
     super();
     this.state = {
       loading: false,
-      employer: []
+      employer: [
+        {
+          name: ""
+        }
+      ]
     };
   }
-  onClick = e => {
-    let data = e.target.value;
-    UserProfile.setName({ data });
-  };
 
   componentDidMount() {
     this.setState({ loading: true });
@@ -72,20 +71,9 @@ class listEmployer extends Component {
                   <TableCell align="left">{row.zip}</TableCell>
                   <TableCell align="left">{row.phone}</TableCell>
                   <TableCell align="left">
-                    <a href={"/editLocations/"}>
-                      <input type="hidden" name="id" id="id" value={row.id} />
-                      <button
-                        id="id"
-                        name="id"
-                        onClick={e => {
-                          this.onClick(e);
-                        }}
-                      >
-                        Edit
-                      </button>
+                    <a href={"/editlocations/"}>
+                      <button>Edit</button>
                     </a>
-
-                    <button>Delete</button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -96,12 +84,9 @@ class listEmployer extends Component {
         <label>
           <b>Add a New Store: </b>
         </label>
-        <button>Click Me!</button>
-
-        <p>
-          When add new store is clicked form will show below instead of a new
-          page
-        </p>
+        <a href="/addlocations">
+          <button>Click Me!</button>
+        </a>
       </div>
     );
   }
