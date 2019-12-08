@@ -25,7 +25,8 @@ export default class crudClients extends React.Component {
     this.state = {
       loading: false,
       client: [],
-      showPopup: false,
+      showEditPopup: false,
+      showNewPopup: false,
       toEdit: []
     };
 
@@ -33,9 +34,14 @@ export default class crudClients extends React.Component {
 
   }
 
-  togglePopup() {
-    this.setState({ showPopup:!this.state.showPopup });
-    this.componentDidMount();
+  toggleEditPopup() {
+    this.setState({ showEditPopup:!this.state.showEditPopup });
+    this.handleClientChange();
+  }
+
+
+  toggleNewPopup() {
+    this.setState({ showNewPopup:!this.state.showNewPopup });
   }
 
   handleClientChange() {
@@ -51,7 +57,7 @@ export default class crudClients extends React.Component {
   }
 
   onEdit(e, row) {
-    this.togglePopup();
+    this.toggleEditPopup();
     this.setState({
       toEdit: row
     })
@@ -67,6 +73,7 @@ export default class crudClients extends React.Component {
       .catch(function(error) {
         console.log(error);
       });
+    this.handleClientChange();
   };
 
   componentDidMount() {
@@ -86,18 +93,19 @@ export default class crudClients extends React.Component {
     return (
       <div>
         <h2>SWEP Clients</h2>
-        {this.state.showPopup ?
+        <button onClick={this.handleClientChange}>Click to refresh Clients</button>
+        {this.state.showEditPopup ?
         <div>  
         <h1>Edit this Client:</h1>
         <EditClientPopup  
         clientInfo={this.state.toEdit}  
-        closePopup={this.togglePopup.bind(this)}
+        closeEditPopup={this.toggleEditPopup.bind(this)}
         onClientEdit={this.handleClientChange}  
         ></EditClientPopup> 
         </div> 
         : null  
         }
-        {!this.state.showPopup ? 
+        {!this.state.showEditPopup ? 
         <Paper>
           <Table>
             <TableHead>
@@ -136,12 +144,18 @@ export default class crudClients extends React.Component {
         <label>
           <b>Add a New Client: </b>
         </label>
-        <button>Click Me!</button>{" "}
+        <button type="button" onClick={this.toggleNewPopup.bind(this)}>Click Me!</button>
         <p>
           When add new client is clicked, the form below will pop up. It will
           not be showing until onClick
         </p>
-        <AddClient onClientAdd={this.handleClientChange}></AddClient>
+        {this.state.showNewPopup ?
+        <AddClient   
+        closeNewPopup={this.toggleNewPopup.bind(this)}
+        onClientAdd={this.handleClientChange}
+        ></AddClient>
+        : null  
+        }
         <pre style={{ width: "300px" }}>{JSON.stringify(this.state.data)}</pre>
       </div>
     );
@@ -164,7 +178,6 @@ class AddClient extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     let data = this.state;
-    alert(data);
     axios
       .post("http://localhost:8080/client", {
         firstName: data.firstName,
@@ -180,6 +193,7 @@ class AddClient extends React.Component {
       });
 
       this.props.onClientAdd()
+      this.props.closeNewPopup()
   };
 
   handleInputChange(e) {
@@ -268,7 +282,6 @@ class EditClientPopup extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     let data = this.state;
-    alert(data.firstName);
     axios
       .post("http://localhost:8080/client/" + data.id, {
         id: data.id,
@@ -284,8 +297,8 @@ class EditClientPopup extends React.Component {
         console.log(error);
       });
 
-      this.props.onClientEdit()
-      this.props.closePopup()
+      this.props.onClientEdit();
+      this.props.closeEditPopup();
   };
 
   handleInputChange(e) {
