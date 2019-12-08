@@ -25,7 +25,8 @@ export default class crudClients extends React.Component {
     this.state = {
       loading: false,
       client: [],
-      showPopup: false
+      showPopup: false,
+      toEdit: []
     };
 
     this.handleClientChange = this.handleClientChange.bind(this);
@@ -48,16 +49,12 @@ export default class crudClients extends React.Component {
     });
   }
 
-  onEdit = e => {
-    let data = e.target.value;
-    var person = prompt("Please enter your name", "Harry Potter");
-
-    if (person == null || person == "") {
-    alert( "User cancelled the prompt.");
-    }   
-    else {
-    alert("Hello " + person + "! How are you today?");
-    }
+  onEdit(e, row) {
+    this.togglePopup();
+    alert(row.firstName)
+    this.setState({
+      toEdit: row
+    })
   };
 
   onDelete = e => {
@@ -89,6 +86,18 @@ export default class crudClients extends React.Component {
     return (
       <div>
         <h2>SWEP Clients</h2>
+        {this.state.showPopup ?
+        <div>  
+        <h1>Edit this Client:</h1>
+        <EditClientPopup  
+        clientInfo={this.state.toEdit}  
+        closePopup={this.togglePopup.bind(this)}
+        onClientEdit={this.handleClientChange}  
+        ></EditClientPopup> 
+        </div> 
+        : null  
+        }
+        {!this.state.showPopup ? 
         <Paper>
           <Table>
             <TableHead>
@@ -111,16 +120,8 @@ export default class crudClients extends React.Component {
                   <TableCell align="left">{row.clientPhone}</TableCell>
 
                   <TableCell align="left">
-                  <button onClick={this.togglePopup.bind(this)}>Edit</button>  
-
-                    {this.state.showPopup ?  
-                      <EditClientPopup  
-                      clientInfo={row}  
-                      closePopup={this.togglePopup.bind(this)}
-                      onClientEdit={this.handleClientChange}  
-                      />  
-                      : null  
-                      } 
+                  <button action="submit" value={row} onClick={e => {
+                      this.onEdit(e, row);}}>Edit</button>  
                     <button action="submit" value={row.id} onClick={e => {
                       this.onDelete(e);}} >Delete</button>
                   </TableCell>
@@ -129,6 +130,8 @@ export default class crudClients extends React.Component {
             </TableBody>
           </Table>
         </Paper>
+        : null  
+        }
         <br></br>
         <label>
           <b>Add a New Client: </b>
@@ -282,6 +285,7 @@ class EditClientPopup extends React.Component {
       });
 
       this.props.onClientEdit()
+      this.props.closePopup()
   };
 
   handleInputChange(e) {
