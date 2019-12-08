@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Table
 @Entity
@@ -30,4 +31,5 @@ public class ClientsJobs {
 
     @Column(name = "startDate")
     private Date startDate;
+
 }

@@ -24,7 +24,7 @@ public class ClientUsersController {
         return clientService.getAll();
     }
 
-    @PostMapping("/new")
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public Client addNew(@RequestBody Client client) {
         return clientService.addClient(client);

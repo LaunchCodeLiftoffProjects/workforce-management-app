@@ -1,14 +1,16 @@
-import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import Page1 from "./pages/page1";
-import Page2 from "./pages/page2";
-import Page3 from "./pages/page3";
+import React from 'react'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import listEmployer from './pages/listEmployer';
+import Layout from './Layout';
+import timeclock from './pages/timeclock';
+import crudClients from "./pages/crudClients";
+import addLocations from './pages/addLocations';
+import listEmployer from './pages/listEmployer';
+import Editlocations from './pages/editLocations';
 import ListStaff from "./pages/ListStaff";
 import AddStaff from "./pages/AddStaff";
-import EditStaff from "./pages/EditStaff";
-import Page5 from "./pages/page5";
-
 import Layout from "./Layout";
+import EditStaff from "./pages/EditStaff";
 
 export const Routes = () => {
   return (
@@ -16,12 +18,14 @@ export const Routes = () => {
       <Layout>
         <div style={{ marginTop: "100px" }}>
           <Route path="/" exact component={Page1} />
-          <Route path="/page2" exact component={Page2} />
-          <Route path="/page3" exact component={Page3} />
           <Route path="/ListStaff" exact component={ListStaff} />
           <Route path="/EditStaff/:id" exact component={EditStaff} />
           <Route path="/AddStaff" exact component={AddStaff} />
-          <Route path="/page5" exact component={Page5} />
+          <Route path="/crudClients" exact component={crudClients} />
+           <Route path="/timeclock" exact component={timeclock} />
+           <Route path="/addLocations" exact component={addLocations} />
+           <Route path="/listEmployer" exact component={listEmployer} />
+           <Route path="/editLocations" exact component={Editlocations} />
         </div>
       </Layout>
     </Router>
