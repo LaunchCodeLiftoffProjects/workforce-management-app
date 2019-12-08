@@ -35,9 +35,10 @@ export default class crudClients extends React.Component {
 
   togglePopup() {
     this.setState({ showPopup:!this.state.showPopup });
+    this.componentDidMount();
   }
 
-  handleClientChange(newClient) {
+  handleClientChange() {
     this.setState({ loading: true });
     axios.get("http://localhost:8080/client")
     .then(res => {
@@ -51,7 +52,6 @@ export default class crudClients extends React.Component {
 
   onEdit(e, row) {
     this.togglePopup();
-    alert(row.firstName)
     this.setState({
       toEdit: row
     })
@@ -270,7 +270,7 @@ class EditClientPopup extends React.Component {
     let data = this.state;
     alert(data.firstName);
     axios
-      .put("http://localhost:8080/client", {
+      .post("http://localhost:8080/client/" + data.id, {
         id: data.id,
         firstName: data.firstName,
         lastName: data.lastName,
