@@ -26,28 +26,19 @@ export default class crudClients extends React.Component {
       loading: false,
       client: []
     };
+
   }
 
-  onSubmit = e => {
-    e.preventDefault();
+  onClick = e => {
     let data = e.target.value;
-    alert(this.state.data);
-    this.setState({ data });
     axios
-      .post("http://localhost:8080/client/new", {
-        name: this.state.data
-      })
+      .delete("http://localhost:8080/client/"+data)
       .then(function(response) {
         console.log(response);
       })
       .catch(function(error) {
         console.log(error);
       });
-  };
-
-  onChange = e => {
-    let data = e.target.value;
-    this.setState({ data });
   };
 
   componentDidMount() {
@@ -89,7 +80,8 @@ export default class crudClients extends React.Component {
 
                   <TableCell align="left">
                     <button>Edit</button>
-                    <button>Delete</button>
+                    <button action="submit" value={row.id} onClick={e => {
+                      this.onClick(e);}} >Delete</button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -105,7 +97,57 @@ export default class crudClients extends React.Component {
           When add new client is clicked, the form below will pop up. It will
           not be showing until onClick
         </p>
-        <div className="crud-form">
+        <AddClient></AddClient>
+        <pre style={{ width: "300px" }}>{JSON.stringify(this.state.data)}</pre>
+      </div>
+    );
+  }
+}
+
+class AddClient extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      firstName: "Jane",
+      lastName: "Doe",
+      clientPhone: "123-456-7890",
+      clientEmail: "JaneDoe@swep.org"
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  onSubmit = e => {
+    e.preventDefault();
+    let data = this.state;
+    alert(data);
+    axios
+      .post("http://localhost:8080/client", {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        clientPhone: data.clientPhone,
+        clientEmail: data.clientEmail
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+  handleInputChange(e) {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      <div className="crud-form">
           <form
             className="dynamic-form"
             onSubmit={e => {
@@ -116,11 +158,9 @@ export default class crudClients extends React.Component {
               <label className="form-label">First Name:</label>
               <input
                 type="text"
-                name="client-id"
-                id="client-id"
-                onChange={e => {
-                  this.onChange(e);
-                }}
+                name="firstName"
+                value={this.state.firstName}
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-group">
@@ -128,10 +168,8 @@ export default class crudClients extends React.Component {
               <input
                 type="text"
                 name="lastName"
-                id="lastName"
-                onChange={e => {
-                  this.onChange(e);
-                }}
+                value={this.state.lastName}
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-group">
@@ -139,10 +177,8 @@ export default class crudClients extends React.Component {
               <input
                 type="text"
                 name="clientPhone"
-                id="clientPhone"
-                onChange={e => {
-                  this.onChange(e);
-                }}
+                value={this.state.clientPhone}
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-group">
@@ -150,21 +186,19 @@ export default class crudClients extends React.Component {
               <input
                 type="text"
                 name="clientEmail"
-                id="clientEmail"
-                onChange={e => {
-                  this.onChange(e);
-                }}
+                value={this.state.clientEmail}
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-group">
-              <button type="submit" id="client-id">
+              <button type="submit" >
                 Submit
               </button>
             </div>
           </form>
         </div>
-        <pre style={{ width: "300px" }}>{JSON.stringify(this.state.data)}</pre>
-      </div>
-    );
+
+    )
   }
+
 }
