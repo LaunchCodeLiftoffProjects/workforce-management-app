@@ -24,12 +24,43 @@ export default class crudClients extends React.Component {
     super();
     this.state = {
       loading: false,
-      client: []
+      client: [],
+      showPopup: false
     };
+
+    this.handleClientChange = this.handleClientChange.bind(this);
 
   }
 
-  onClick = e => {
+  togglePopup() {
+    this.setState({ showPopup:!this.state.showPopup });
+  }
+
+  handleClientChange(newClient) {
+    this.setState({ loading: true });
+    axios.get("http://localhost:8080/client")
+    .then(res => {
+      const client = res.data;
+      this.setState({ client });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  }
+
+  onEdit = e => {
+    let data = e.target.value;
+    var person = prompt("Please enter your name", "Harry Potter");
+
+    if (person == null || person == "") {
+    alert( "User cancelled the prompt.");
+    }   
+    else {
+    alert("Hello " + person + "! How are you today?");
+    }
+  };
+
+  onDelete = e => {
     let data = e.target.value;
     axios
       .delete("http://localhost:8080/client/"+data)
@@ -43,14 +74,15 @@ export default class crudClients extends React.Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    fetch("http://localhost:8080/client")
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          loading: false,
-          client: data
-        });
-      });
+    axios.get("http://localhost:8080/client")
+    .then(res => {
+      const client = res.data;
+      this.setState({ client });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  
   }
 
   render() {
@@ -79,9 +111,18 @@ export default class crudClients extends React.Component {
                   <TableCell align="left">{row.clientPhone}</TableCell>
 
                   <TableCell align="left">
-                    <button>Edit</button>
+                  <button onClick={this.togglePopup.bind(this)}>Edit</button>  
+
+                    {this.state.showPopup ?  
+                      <EditClientPopup  
+                      clientInfo={row}  
+                      closePopup={this.togglePopup.bind(this)}
+                      onClientEdit={this.handleClientChange}  
+                      />  
+                      : null  
+                      } 
                     <button action="submit" value={row.id} onClick={e => {
-                      this.onClick(e);}} >Delete</button>
+                      this.onDelete(e);}} >Delete</button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -97,7 +138,7 @@ export default class crudClients extends React.Component {
           When add new client is clicked, the form below will pop up. It will
           not be showing until onClick
         </p>
-        <AddClient></AddClient>
+        <AddClient onClientAdd={this.handleClientChange}></AddClient>
         <pre style={{ width: "300px" }}>{JSON.stringify(this.state.data)}</pre>
       </div>
     );
@@ -134,6 +175,8 @@ class AddClient extends React.Component {
       .catch(function(error) {
         console.log(error);
       });
+
+      this.props.onClientAdd()
   };
 
   handleInputChange(e) {
@@ -154,6 +197,118 @@ class AddClient extends React.Component {
               this.onSubmit(e);
             }}
           >
+            <div className="form-group">
+              <label className="form-label">First Name:</label>
+              <input
+                type="text"
+                name="firstName"
+                value={this.state.firstName}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Last Name:</label>
+              <input
+                type="text"
+                name="lastName"
+                value={this.state.lastName}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Phone:</label>
+              <input
+                type="text"
+                name="clientPhone"
+                value={this.state.clientPhone}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Email:</label>
+              <input
+                type="text"
+                name="clientEmail"
+                value={this.state.clientEmail}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <button type="submit" >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+
+    )
+  }
+
+}
+
+class EditClientPopup extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {         
+      id: props.clientInfo.id,
+      firstName: props.clientInfo.firstName,
+      lastName: props.clientInfo.lastName,
+      clientPhone: props.clientInfo.clientPhone,
+      clientEmail: props.clientInfo.clientEmail
+    };
+
+  this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+
+  onSubmit = e => {
+    e.preventDefault();
+    let data = this.state;
+    alert(data.firstName);
+    axios
+      .put("http://localhost:8080/client", {
+        id: data.id,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        clientPhone: data.clientPhone,
+        clientEmail: data.clientEmail
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+      this.props.onClientEdit()
+  };
+
+  handleInputChange(e) {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      <div className="crud-form">
+          <form
+            className="dynamic-form"
+            onSubmit={e => {
+              this.onSubmit(e);
+            }}
+          >
+             <div className="form-group">
+              <input
+                type="hidden"
+                name="id"
+                value={this.props.id}
+              />
+            </div>
             <div className="form-group">
               <label className="form-label">First Name:</label>
               <input
