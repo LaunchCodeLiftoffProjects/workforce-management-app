@@ -1,11 +1,10 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import Page1 from './pages/page1.jsx';
 import listEmployer from './pages/listEmployer';
-import Layout from './Layout';
 import timeclock from './pages/timeclock';
 import crudClients from "./pages/crudClients";
 import addLocations from './pages/addLocations';
-import listEmployer from './pages/listEmployer';
 import Editlocations from './pages/editLocations';
 import ListStaff from "./pages/ListStaff";
 import AddStaff from "./pages/AddStaff";

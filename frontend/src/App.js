@@ -1,13 +1,6 @@
 import React from "react";
 import "./App.css";
 import { Routes } from "./Router";
-<<<<<<< HEAD
-
-
-
-export default Routes;
-
-=======
 import { Component } from "react";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
@@ -35,4 +28,3 @@ class App extends Component {
 }
 
 export default App;
->>>>>>> 7186243653f408e6990e4a5ee892c4a893c8e45e
