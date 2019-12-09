@@ -49,12 +49,22 @@ class ListStaff extends Component {
     return (
       <Paper>
         <Table>
+          <colgroup>
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "20%" }} />
+            <col style={{ width: "25%" }} />
+          </colgroup>
           <TableHead>
             <TableRow>
-              <TableCell align="left">First Name</TableCell>
+              <TableCell align="left" fontSize="500em">
+                First Name
+              </TableCell>
               <TableCell align="left">Last Name&nbsp;</TableCell>
               <TableCell align="left">Email&nbsp;</TableCell>
               <TableCell align="left">Phone&nbsp;</TableCell>
+              <TableCell align="left"></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -63,16 +73,23 @@ class ListStaff extends Component {
                 <TableCell component="th" scope="row">
                   {row.firstName}
                 </TableCell>
-                <TableCell align="left">
-                  <a href={"/EditStaff/" + row.id}>{row.lastName}</a>
-                </TableCell>
+                <TableCell align="left">{row.lastName}</TableCell>
                 <TableCell align="left">{row.staffEmail}</TableCell>
                 <TableCell align="left">{row.staffPhone}</TableCell>
+                <TableCell align="left">
+                  <Link to={"/EditStaff/" + row.id} className="btn btn-link">
+                    <Button color="gray">
+                      <span>Edit or Delete</span>
+                    </Button>
+                  </Link>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
         <div>
+          <br></br>
+          <br></br>
           <Link to="/AddStaff" className="btn btn-primary">
             Add Staff
           </Link>

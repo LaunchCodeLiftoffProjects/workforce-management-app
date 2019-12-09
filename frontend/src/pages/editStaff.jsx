@@ -16,6 +16,7 @@ class EditStaff extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   async componentDidMount() {
@@ -39,7 +40,7 @@ class EditStaff extends Component {
     const body = {
       id: this.state.id,
       firstName: this.state.firstName,
-      lastName: this.state.lasName,
+      lastName: this.state.lastName,
       staffEmail: this.state.staffEmail,
       staffPhone: this.state.staffPhone
     };
@@ -47,6 +48,32 @@ class EditStaff extends Component {
       .post("http://localhost:8080/staff", body)
       .then(function(response) {
         console.log(response);
+      })
+      .then(response => {
+        window.location.href = "/ListStaff";
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  handleDelete(event) {
+    event.preventDefault();
+
+    const body = {
+      id: this.state.id,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      staffEmail: this.state.staffEmail,
+      staffPhone: this.state.staffPhone
+    };
+    axios
+      .delete("http://localhost:8080/staff/" + this.props.match.params.id)
+      .then(function(response) {
+        console.log(response);
+      })
+      .then(response => {
+        window.location.href = "/ListStaff";
       })
       .catch(function(error) {
         console.log(error);
@@ -117,7 +144,9 @@ class EditStaff extends Component {
               </button>
               &nbsp;
               <button>Cancel</button>&nbsp;
-              <button color="secondary">Delete</button>
+              <button onClick={this.handleDelete} color="secondary">
+                Delete
+              </button>
             </div>
           </form>
         </div>

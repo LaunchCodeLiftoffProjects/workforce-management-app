@@ -34,6 +34,9 @@ class AddStaff extends Component {
       .then(function(response) {
         console.log(response);
       })
+      .then(response => {
+        window.location.href = "/ListStaff";
+      })
       .catch(function(error) {
         console.log(error);
       });
