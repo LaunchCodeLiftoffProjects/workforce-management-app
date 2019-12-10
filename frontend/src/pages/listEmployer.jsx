@@ -48,16 +48,10 @@ class ListEmployer extends Component {
   render() {
     return (
       <Paper>
+        <div>
+          <h2>Store Locations</h2>
+        </div>
         <Table>
-          <colgroup>
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "20%" }} />
-            <col style={{ width: "25%" }} />
-          </colgroup>
           <TableHead>
             <TableRow>
               <TableCell align="left" fontSize="500em">
@@ -99,11 +93,12 @@ class ListEmployer extends Component {
         <div>
           <br></br>
           <br></br>
-          <Link to="/addLocations" className="btn btn-primary">
-            Add Staff
+          <Link to={"/addLocations/"} className="btn btn-link">
+            <Button color="gray">
+              <span>Add Location</span>
+            </Button>
           </Link>
         </div>
-        ;
       </Paper>
     );
   }

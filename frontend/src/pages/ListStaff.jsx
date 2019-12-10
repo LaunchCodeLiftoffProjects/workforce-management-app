@@ -48,6 +48,9 @@ class ListStaff extends Component {
   render() {
     return (
       <Paper>
+        <div>
+          <h2>Staff</h2>
+        </div>
         <Table>
           <colgroup>
             <col style={{ width: "20%" }} />

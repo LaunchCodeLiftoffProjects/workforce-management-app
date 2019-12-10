@@ -45,7 +45,7 @@ class EditLocations extends Component {
       id: this.state.id,
       name: this.state.name,
       address: this.state.address,
-      city: this.state.staffEmail,
+      city: this.state.city,
       state: this.state.state,
       zip: this.state.zip,
       phone: this.state.phone
@@ -70,7 +70,7 @@ class EditLocations extends Component {
       id: this.state.id,
       name: this.state.name,
       address: this.state.address,
-      city: this.state.staffEmail,
+      city: this.state.city,
       state: this.state.state,
       zip: this.state.zip,
       phone: this.state.phone

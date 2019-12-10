@@ -21,9 +21,6 @@ export const NavBar = ({ color }) => (
       <Link to="/listEmployer">
         <Button>Employers</Button>
       </Link>
-      <Link to="/editLocations">
-        <Button>Edit Locations</Button>
-      </Link>
     </Toolbar>
   </AppBar>
 );

@@ -24,7 +24,7 @@ export const Routes = () => {
           <Route path="/timeclock" exact component={timeclock} />
           <Route path="/addLocations" exact component={addLocations} />
           <Route path="/listEmployer" exact component={listEmployer} />
-          <Route path="/editLocations" exact component={Editlocations} />
+          <Route path="/editLocations/:id" exact component={Editlocations} />
         </div>
       </Layout>
     </Router>
