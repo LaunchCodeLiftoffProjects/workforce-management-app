@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import DynamicForm from "../crudClientsComponents/index";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -36,7 +35,6 @@ export default class crudClients extends React.Component {
 
   toggleEditPopup() {
     this.setState({ showEditPopup:!this.state.showEditPopup });
-    this.handleClientChange();
   }
 
 
@@ -59,7 +57,8 @@ export default class crudClients extends React.Component {
   onEdit(e, row) {
     this.toggleEditPopup();
     this.setState({
-      toEdit: row
+      toEdit: row,
+      showNewPopup: false
     })
   };
 
@@ -73,7 +72,7 @@ export default class crudClients extends React.Component {
       .catch(function(error) {
         console.log(error);
       });
-    this.handleClientChange();
+    this.handleClientChange.bind(this);
   };
 
   componentDidMount() {
@@ -100,12 +99,13 @@ export default class crudClients extends React.Component {
         <EditClientPopup  
         clientInfo={this.state.toEdit}  
         closeEditPopup={this.toggleEditPopup.bind(this)}
-        onClientEdit={this.handleClientChange}  
+        onClientEdit={this.handleClientChange.bind(this)}  
         ></EditClientPopup> 
         </div> 
         : null  
         }
         {!this.state.showEditPopup ? 
+        <div>
         <Paper>
           <Table>
             <TableHead>
@@ -128,9 +128,9 @@ export default class crudClients extends React.Component {
                   <TableCell align="left">{row.clientPhone}</TableCell>
 
                   <TableCell align="left">
-                  <button action="submit" value={row} onClick={e => {
+                  <button value={row} onClick={e => {
                       this.onEdit(e, row);}}>Edit</button>  
-                    <button action="submit" value={row.id} onClick={e => {
+                    <button value={row.id} onClick={e => {
                       this.onDelete(e);}} >Delete</button>
                   </TableCell>
                 </TableRow>
@@ -138,8 +138,7 @@ export default class crudClients extends React.Component {
             </TableBody>
           </Table>
         </Paper>
-        : null  
-        }
+      
         <br></br>
         <label>
           <b>Add a New Client: </b>
@@ -149,6 +148,9 @@ export default class crudClients extends React.Component {
           When add new client is clicked, the form below will pop up. It will
           not be showing until onClick
         </p>
+        </div>
+        : null  
+        }
         {this.state.showNewPopup ?
         <AddClient   
         closeNewPopup={this.toggleNewPopup.bind(this)}
