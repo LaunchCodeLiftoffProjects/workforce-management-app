@@ -92,6 +92,7 @@ export default class crudClients extends React.Component {
     return (
       <div>
         <h2>SWEP Clients</h2>
+        <h4>If you don't see a change immediately, try hitting the refresh button below:</h4>
         <button onClick={this.handleClientChange}>Click to refresh Clients</button>
         {this.state.showEditPopup ?
         <div>  
