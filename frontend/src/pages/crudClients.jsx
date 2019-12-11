@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import DynamicForm from "../crudClientsComponents/index";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -24,48 +23,90 @@ export default class crudClients extends React.Component {
     super();
     this.state = {
       loading: false,
-      client: []
+      client: [],
+      showEditPopup: false,
+      showNewPopup: false,
+      toEdit: []
     };
+
+    this.handleClientChange = this.handleClientChange.bind(this);
+
   }
 
-  onSubmit = e => {
-    e.preventDefault();
+  toggleEditPopup() {
+    this.setState({ showEditPopup:!this.state.showEditPopup });
+  }
+
+
+  toggleNewPopup() {
+    this.setState({ showNewPopup:!this.state.showNewPopup });
+  }
+
+  handleClientChange() {
+    this.setState({ loading: true });
+    axios.get("http://localhost:8080/client")
+    .then(res => {
+      const client = res.data;
+      this.setState({ client });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  }
+
+  onEdit(e, row) {
+    this.toggleEditPopup();
+    this.setState({
+      toEdit: row,
+      showNewPopup: false
+    })
+  };
+
+  onDelete = e => {
     let data = e.target.value;
-    alert(this.state.data);
-    this.setState({ data });
     axios
-      .post("http://localhost:8080/client/new", {
-        name: this.state.data
-      })
+      .delete("http://localhost:8080/client/"+data)
       .then(function(response) {
         console.log(response);
       })
       .catch(function(error) {
         console.log(error);
       });
-  };
-
-  onChange = e => {
-    let data = e.target.value;
-    this.setState({ data });
+    this.handleClientChange.bind(this);
   };
 
   componentDidMount() {
     this.setState({ loading: true });
-    fetch("http://localhost:8080/client")
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          loading: false,
-          client: data
-        });
-      });
+    axios.get("http://localhost:8080/client")
+    .then(res => {
+      const client = res.data;
+      this.setState({ client });
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+  
   }
 
   render() {
     return (
       <div>
         <h2>SWEP Clients</h2>
+        <h4>If you don't see a change immediately, try hitting the refresh button below:</h4>
+        <button onClick={this.handleClientChange}>Click to refresh Clients</button>
+        {this.state.showEditPopup ?
+        <div>  
+        <h1>Edit this Client:</h1>
+        <EditClientPopup  
+        clientInfo={this.state.toEdit}  
+        closeEditPopup={this.toggleEditPopup.bind(this)}
+        onClientEdit={this.handleClientChange.bind(this)}  
+        ></EditClientPopup> 
+        </div> 
+        : null  
+        }
+        {!this.state.showEditPopup ? 
+        <div>
         <Paper>
           <Table>
             <TableHead>
@@ -88,24 +129,88 @@ export default class crudClients extends React.Component {
                   <TableCell align="left">{row.clientPhone}</TableCell>
 
                   <TableCell align="left">
-                    <button>Edit</button>
-                    <button>Delete</button>
+                  <button value={row} onClick={e => {
+                      this.onEdit(e, row);}}>Edit</button>  
+                    <button value={row.id} onClick={e => {
+                      this.onDelete(e);}} >Delete</button>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </Paper>
+      
         <br></br>
         <label>
           <b>Add a New Client: </b>
         </label>
-        <button>Click Me!</button>{" "}
+        <button type="button" onClick={this.toggleNewPopup.bind(this)}>Click Me!</button>
         <p>
           When add new client is clicked, the form below will pop up. It will
           not be showing until onClick
         </p>
-        <div className="crud-form">
+        </div>
+        : null  
+        }
+        {this.state.showNewPopup ?
+        <AddClient   
+        closeNewPopup={this.toggleNewPopup.bind(this)}
+        onClientAdd={this.handleClientChange}
+        ></AddClient>
+        : null  
+        }
+        <pre style={{ width: "300px" }}>{JSON.stringify(this.state.data)}</pre>
+      </div>
+    );
+  }
+}
+
+class AddClient extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      firstName: "Jane",
+      lastName: "Doe",
+      clientPhone: "123-456-7890",
+      clientEmail: "JaneDoe@swep.org"
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  onSubmit = e => {
+    e.preventDefault();
+    let data = this.state;
+    axios
+      .post("http://localhost:8080/client", {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        clientPhone: data.clientPhone,
+        clientEmail: data.clientEmail
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+      this.props.onClientAdd()
+      this.props.closeNewPopup()
+  };
+
+  handleInputChange(e) {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      <div className="crud-form">
           <form
             className="dynamic-form"
             onSubmit={e => {
@@ -116,11 +221,9 @@ export default class crudClients extends React.Component {
               <label className="form-label">First Name:</label>
               <input
                 type="text"
-                name="client-id"
-                id="client-id"
-                onChange={e => {
-                  this.onChange(e);
-                }}
+                name="firstName"
+                value={this.state.firstName}
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-group">
@@ -128,10 +231,8 @@ export default class crudClients extends React.Component {
               <input
                 type="text"
                 name="lastName"
-                id="lastName"
-                onChange={e => {
-                  this.onChange(e);
-                }}
+                value={this.state.lastName}
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-group">
@@ -139,10 +240,8 @@ export default class crudClients extends React.Component {
               <input
                 type="text"
                 name="clientPhone"
-                id="clientPhone"
-                onChange={e => {
-                  this.onChange(e);
-                }}
+                value={this.state.clientPhone}
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-group">
@@ -150,21 +249,131 @@ export default class crudClients extends React.Component {
               <input
                 type="text"
                 name="clientEmail"
-                id="clientEmail"
-                onChange={e => {
-                  this.onChange(e);
-                }}
+                value={this.state.clientEmail}
+                onChange={this.handleInputChange}
               />
             </div>
             <div className="form-group">
-              <button type="submit" id="client-id">
+              <button type="submit" >
                 Submit
               </button>
             </div>
           </form>
         </div>
-        <pre style={{ width: "300px" }}>{JSON.stringify(this.state.data)}</pre>
-      </div>
-    );
+
+    )
   }
+
+}
+
+class EditClientPopup extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {         
+      id: props.clientInfo.id,
+      firstName: props.clientInfo.firstName,
+      lastName: props.clientInfo.lastName,
+      clientPhone: props.clientInfo.clientPhone,
+      clientEmail: props.clientInfo.clientEmail
+    };
+
+  this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+
+  onSubmit = e => {
+    e.preventDefault();
+    let data = this.state;
+    axios
+      .post("http://localhost:8080/client/" + data.id, {
+        id: data.id,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        clientPhone: data.clientPhone,
+        clientEmail: data.clientEmail
+      })
+      .then(function(response) {
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+
+      this.props.onClientEdit();
+      this.props.closeEditPopup();
+  };
+
+  handleInputChange(e) {
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  }
+
+  render() {
+    return (
+      <div className="crud-form">
+          <form
+            className="dynamic-form"
+            onSubmit={e => {
+              this.onSubmit(e);
+            }}
+          >
+             <div className="form-group">
+              <input
+                type="hidden"
+                name="id"
+                value={this.props.id}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">First Name:</label>
+              <input
+                type="text"
+                name="firstName"
+                value={this.state.firstName}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Last Name:</label>
+              <input
+                type="text"
+                name="lastName"
+                value={this.state.lastName}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Phone:</label>
+              <input
+                type="text"
+                name="clientPhone"
+                value={this.state.clientPhone}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Email:</label>
+              <input
+                type="text"
+                name="clientEmail"
+                value={this.state.clientEmail}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <button type="submit" >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+
+    )
+  }
+
 }
