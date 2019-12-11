@@ -36,6 +36,9 @@ class addLocations extends React.Component {
       .then(function(response) {
         console.log(response);
       })
+      .then(response => {
+        window.location.href = "/listEmployer";
+      })
       .catch(function(error) {
         console.log(error);
       });
@@ -122,9 +125,11 @@ class addLocations extends React.Component {
               value={this.state.phone ? this.state.phone : ""}
               required
             />
-
-            <div class="btn-group btn-group-toggle">
-              <button type="button" type="submit" class="btn btn-primary">
+            <br></br>
+            <br></br>
+            <br></br>
+            <div className="btn-group btn-group-toggle">
+              <button type="button" type="submit" className="btn btn-primary">
                 Save
               </button>
             </div>

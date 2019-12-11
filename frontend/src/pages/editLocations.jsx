@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 
-class Editlocations extends React.Component {
+class EditLocations extends Component {
   constructor() {
     super();
     this.state = {
@@ -15,9 +15,12 @@ class Editlocations extends React.Component {
       zip: "",
       phone: ""
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
+
   async componentDidMount() {
     const data = await fetch(
       "http://localhost:8080/employer/" + this.props.match.params.id
@@ -52,6 +55,34 @@ class Editlocations extends React.Component {
       .then(function(response) {
         console.log(response);
       })
+      .then(response => {
+        window.location.href = "/ListEmployer";
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  handleDelete(event) {
+    event.preventDefault();
+
+    const body = {
+      id: this.state.id,
+      name: this.state.name,
+      address: this.state.address,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip,
+      phone: this.state.phone
+    };
+    axios
+      .delete("http://localhost:8080/employer/" + this.props.match.params.id)
+      .then(function(response) {
+        console.log(response);
+      })
+      .then(response => {
+        window.location.href = "/ListEmployer";
+      })
       .catch(function(error) {
         console.log(error);
       });
@@ -64,12 +95,13 @@ class Editlocations extends React.Component {
   render() {
     return (
       <div>
-        <h2>Edit Store Location</h2>
+        <h3>Edit Store:</h3>
         <div>
           <form onSubmit={this.handleSubmit} noValidate autoComplete="off">
             <TextField
               id="name"
               label="Store Name"
+              helperText="Store Name"
               onChange={this.handleChange}
               margin="normal"
               name="name"
@@ -144,7 +176,9 @@ class Editlocations extends React.Component {
               </button>
               &nbsp;
               <button>Cancel</button>&nbsp;
-              <button color="secondary">Delete</button>
+              <button onClick={this.handleDelete} color="secondary">
+                Delete
+              </button>
             </div>
           </form>
         </div>
@@ -153,4 +187,4 @@ class Editlocations extends React.Component {
   }
 }
 
-export default Editlocations;
+export default EditLocations;

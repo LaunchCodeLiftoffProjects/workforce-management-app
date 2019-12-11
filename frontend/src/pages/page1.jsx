@@ -1,5 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default () => {
-    return <div>Page 1</div>
-}
+  return (
+    <div>
+      <h2>Welcome Administrator</h2>
+    </div>
+  );
+};
