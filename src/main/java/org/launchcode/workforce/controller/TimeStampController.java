@@ -22,6 +22,8 @@ public class TimeStampController {
         this.timeStampService = timeStampService;
     }
 
+
+
     @PostMapping
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseStatus(HttpStatus.OK)
@@ -30,11 +32,11 @@ public class TimeStampController {
         return timeStampService.add(clientId, client);
         }
 
-    @GetMapping
+    //changing this to output clients previous stamps into a table
+    @GetMapping("stamp/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-
-    List<TimeStamp> getAll() {
-        return timeStampService.getAll();
+    List<TimeStamp> getByClientId(@RequestBody Long clientId) {
+        return timeStampService.getByClientId(clientId);
     }
 
 
